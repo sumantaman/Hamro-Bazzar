@@ -1,10 +1,14 @@
 import React from 'react'
 import './App.css'
+import Navbar from './components/Navbar/Navbar'
+import HomePage from './components/Home/HomePage';
 const App = () => {
   return (
     <div className='app'>
-      <nav>NavBar</nav>
-      <main>All ROuting</main>
+      <Navbar />
+      <main>
+        <HomePage />
+      </main>
     </div>
   )
 }
