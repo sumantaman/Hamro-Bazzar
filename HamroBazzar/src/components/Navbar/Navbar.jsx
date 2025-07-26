@@ -21,9 +21,9 @@ const Navbar = () => {
             <LinkWithIcon  title="Home" Link="/" emoji={rocket} />
             <LinkWithIcon  title="Products" Link="/products" emoji={star} />
             <LinkWithIcon  title="Login" Link="/login" emoji={idButton} />
-            <LinkWithIcon  title="Sign Up" Link="/signup" emoji={memo} />
+            {/* <LinkWithIcon  title="Sign Up" Link="/signup" emoji={memo} />
             <LinkWithIcon  title="My Orders" Link="/myorders" emoji={order} />
-            <LinkWithIcon  title="Logout" Link="/logout" emoji={lock} />
+            <LinkWithIcon  title="Logout" Link="/logout" emoji={lock} /> */}
             <a href="/cart" className="align_center">
             Cart <p className="align_center cart_counts">0</p>
             </a>
