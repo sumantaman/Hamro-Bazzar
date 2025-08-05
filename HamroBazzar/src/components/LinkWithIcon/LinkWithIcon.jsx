@@ -1,12 +1,17 @@
-import React from 'react'
-import './LinkWithIcon.css'
+import React from "react";
+import "./LinkWithIcon.css";
+import { NavLink } from "react-router-dom";
 
-const LinkWithIcon = ({title,link,emoji,sidebar}) => {
+const LinkWithIcon = ({ title, link, emoji, sidebar }) => {
   return (
-    <a href={link} className={sidebar ? 'align_center sidebar_link': 'align_center'}>
-                    {title}<img src={emoji} alt="" className='link_emoji' />
-                </a>
-  )
-}
+    <NavLink
+      to={link}
+      className={sidebar ? "align_center sidebar_link" : "align_center"}
+    >
+      {title}
+      <img src={emoji} alt="" className="link_emoji" />
+    </NavLink>
+  );
+};
 
-export default LinkWithIcon
+export default LinkWithIcon;

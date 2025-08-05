@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./SingleProduct.css";
-import QuantityInput from './QuantityInput';
+import QuantityInput from "./QuantityInput";
 const SingleProductPage = () => {
   const product = {
     id: 1,
@@ -22,13 +22,14 @@ const SingleProductPage = () => {
     <section className="align_center single_product">
       <div className="align_center">
         <div className="single_product_thumnails">
-          {
-            product.images.map((image, index)=>(
-                <img src={image} alt={product.title} onClick={()=> setSelectedImage(index)} className={
-                    selectedImage === index ? "selected_image": ""
-                } />
-            ))
-          }
+          {product.images.map((image, index) => (
+            <img
+              src={image}
+              alt={product.title}
+              onClick={() => setSelectedImage(index)}
+              className={selectedImage === index ? "selected_image" : ""}
+            />
+          ))}
         </div>
         <img
           src={product.images[selectedImage]}
@@ -40,11 +41,9 @@ const SingleProductPage = () => {
         <h1 className="single_product_title">{product.title}</h1>
         <p className="single_product_decription">{product.description}</p>
         <p className="single_product_price">${product.price.toFixed(2)}</p>
-        <h2 className="quantity_title">
-            Quantity:
-        </h2>
+        <h2 className="quantity_title">Quantity:</h2>
         <div className="align_center quantity_input">
-            <QuantityInput />
+          <QuantityInput />
         </div>
         <button className="search_button add_cart">Add to Cart</button>
       </div>
