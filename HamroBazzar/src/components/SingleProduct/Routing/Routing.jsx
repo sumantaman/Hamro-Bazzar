@@ -3,16 +3,13 @@ import { Routes, Route} from 'react-router-dom'
 
 // import HomePage from "../Home/HomePage";
 import ProductPage from "./../../Products/ProductPage";
-
-
-
-
 import SignupPage from "./../../Authentication/SignupPage";
 import HomePage from './../../Home/HomePage';
 import SingleProductPage from './../SingleProductPage';
 import CartPage from './../../Cart/CartPage';
 import MyOrderPage from './../../MyOrder/MyOrderPage';
 import LoginPage from './../../Authentication/LoginPage';
+import Logout from '../../Authentication/Logout';
 
 
 const Routing = () => {
@@ -25,6 +22,8 @@ const Routing = () => {
     <Route path='/login' element={ <LoginPage />} />
     <Route path='/cart' element={ <CartPage />} />
     <Route path='/myorder' element={ <MyOrderPage />} />
+    <Route path='/logout' element={ <Logout /> } />
+    
    </Routes>
   )
 }

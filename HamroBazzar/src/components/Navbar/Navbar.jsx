@@ -35,11 +35,12 @@ const Navbar = ({ user }) => {
         )}
         {user && (
           <>
-            <LinkWithIcon title="My Orders" link="/myorders" emoji={order} />
-            <LinkWithIcon title="Logout" Llnk="/logout" emoji={lock} />
+            <LinkWithIcon title="My Orders" link="/myorder" emoji={order} />
+
             <NavLink to="/cart" className="align_center">
               Cart <p className="align_center cart_counts">0</p>
             </NavLink>
+            <LinkWithIcon title="Logout" link="logout" emoji={lock} />
           </>
         )}
       </div>
