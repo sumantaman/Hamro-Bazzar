@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
-import {useNavigate} from "react-router-dom"
+// import {useNavigate} from "react-router-dom"
 import "./LoginPage.css";
 import { login } from "../../services/userServices";
 
@@ -12,7 +12,7 @@ const schema = z.object({
     password: z.string().min(8)
 })
 const LoginPage = () => {
-let navigate = useNavigate();
+// let navigate = useNavigate();
   const [err,setErr] = useState(null);
   const { register,handleSubmit, formState :{errors} } = useForm({resolver :zodResolver(schema)});
   
@@ -21,7 +21,8 @@ const onSubmit = async (formData )=>{
   try {
      const {data}=await login(formData)
      localStorage.setItem("token",data.token)
-     navigate("/")
+     window.location ="/"
+    //  navigate("/")
   } catch (error) {
     if(error.response && error.response.status === 400){
         setErr(error.response.data.message)
