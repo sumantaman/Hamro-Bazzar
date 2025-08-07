@@ -1,7 +1,8 @@
 import React from "react";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import Routing from './components/Routing/Routing';
+import Routing from "./components/SingleProduct/Routing/Routing";
+
 
 const App = () => {
   return (

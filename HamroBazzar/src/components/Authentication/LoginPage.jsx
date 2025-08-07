@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import "./LoginPage.css";
+import { login } from "../../services/userServices";
 
 
 const schema = z.object({
@@ -11,25 +12,22 @@ const schema = z.object({
     password: z.string().min(8)
 })
 const LoginPage = () => {
+
+  const [err,setErr] = useState(null);
   const { register,handleSubmit, formState :{errors} } = useForm({resolver :zodResolver(schema)});
   
-//   const [user, setUser] = useState({ name: "", phone: 0 });
-  // const passwordRef = useRef(null)
 
-  // const nameRef = useRef(null)
-  // const phoneRef = useRef(null)
-  // const user = {
-  //             name : "",
-  //             phone : 0,
-  //         }
-  //         user.name=(nameRef.current.value);
-  //         user.phone=parseInt(phoneRef.current.value);
-  //         console.log(user)
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//   };
-const onSubmit = (formData )=> console.log(formData);
+const onSubmit = async (formData )=>{
+  try {
+     await login(formData)
+  } catch (error) {
+    if(error.response && error.response.status === 400){
+        setErr(error.response.data.message)
+      }
+    
+  }
+};
+ 
   return (
     <section className="align_center form_page">
       <form action="" className="authentication_form" 
@@ -64,7 +62,7 @@ const onSubmit = (formData )=> console.log(formData);
             {/* <button type='button' onClick={()=>passwordRef.current.type = "password"}>Hide Password</button>
                     <button type='button'onClick={()=>passwordRef.current.type = "text"}>Show Password</button> */}
           </div>
-
+          {err && <em className="form_error">{err}</em>}
           <button className="search_buttton form_submit">Submit</button>
         </div>
       </form>
@@ -73,3 +71,20 @@ const onSubmit = (formData )=> console.log(formData);
 };
 
 export default LoginPage;
+
+//   const [user, setUser] = useState({ name: "", phone: 0 });
+  // const passwordRef = useRef(null)
+
+  // const nameRef = useRef(null)
+  // const phoneRef = useRef(null)
+  // const user = {
+  //             name : "",
+  //             phone : 0,
+  //         }
+  //         user.name=(nameRef.current.value);
+  //         user.phone=parseInt(phoneRef.current.value);
+  //         console.log(user)
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//   };
