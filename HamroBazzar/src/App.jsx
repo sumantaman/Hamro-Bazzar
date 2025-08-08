@@ -1,50 +1,60 @@
-import React, { useEffect, useState }  from "react";
-import {jwtDecode} from 'jwt-decode'
+import React, { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Routing from "./components/SingleProduct/Routing/Routing";
 import setAuthToken from "./utils/setAuthToken";
+import { addToCartAPI } from "./services/cartServices";
 
-
-setAuthToken(localStorage.setItem("token"))
+setAuthToken(localStorage.getItem("token"));
 
 const App = () => {
-  const [user, setUser] = useState(null)
-  const [cart, setCart] =useState([])
+  const [user, setUser] = useState(null);
+  const [cart, setCart] = useState([]);
 
-  useEffect(()=>{
-
+  useEffect(() => {
     try {
-      const jwt = localStorage.getItem("token")
-    const jwtUser = jwtDecode(jwt);
-    if(Date.now() >= jwtUser.exp * 1000){
-      localStorage.removeItem("token")
-      location.reload()
-    }else{
-      setUser(jwtUser)
+      const jwt = localStorage.getItem("token");
+      const jwtUser = jwtDecode(jwt);
+      if (Date.now() >= jwtUser.exp * 1000) {
+        localStorage.removeItem("token");
+        location.reload();
+      } else {
+        setUser(jwtUser);
+      }
+    } catch (error) {
+      console.log(error);
     }
-    } catch (error) {console.log(error)}
-  },[])
+  }, []);
 
-  const addToCart = (product,quantity) =>{
-    const updatedCart =[...cart]
-    const productIndex = updatedCart.findIndex(item => item.product._id === product._id)
-    if(productIndex === -1){
-      updatedCart.push({product,quantity})
-    }else{
-      updatedCart[productIndex].quantity +=quantity
+  const addToCart = (product, quantity) => {
+    const updatedCart = [...cart];
+    const productIndex = updatedCart.findIndex(
+      (item) => item.product._id === product._id
+    );
+    if (productIndex === -1) {
+      updatedCart.push({ product: product, quantity: quantity });
+    } else {
+      updatedCart[productIndex].quantity += quantity;
     }
 
-    setCart(updatedCart)
+    setCart(updatedCart);
+    addToCartAPI(product._id,quantity).then(()=>{
+      console.log("Product added to cart")
+    }).catch(err=> {
+      console.log(err.response)
+      setCart(cart)
+    })
+  
     // setCart([...cart,{
     //   product, quantity
     // }])
-  }
+  };
   return (
     <div className="app">
-      <Navbar user={user}  cartCount={cart.length}/>
+      <Navbar user={user} cartCount={cart.length} />
       <main>
-        <Routing  addToCart={addToCart}/>
+        <Routing addToCart={addToCart} />
       </main>
     </div>
   );

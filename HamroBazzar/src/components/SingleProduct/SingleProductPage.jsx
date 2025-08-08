@@ -26,8 +26,6 @@ const SingleProductPage = ({ addToCart }) => {
   const [quantity, setQuantity] = useState(1);
 
   const { data: product, error, isLoading } = useData(`/products/${id}`);
-
-  console.log(addToCart)
   return (
     <section className="align_center single_product">
       {error && <em className="form_error">{error}</em>}
