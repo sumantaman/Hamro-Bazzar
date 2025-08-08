@@ -3,8 +3,10 @@ import {jwtDecode} from 'jwt-decode'
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Routing from "./components/SingleProduct/Routing/Routing";
+import setAuthToken from "./utils/setAuthToken";
 
 
+setAuthToken(localStorage.setItem("token"))
 
 const App = () => {
   const [user, setUser] = useState(null)
