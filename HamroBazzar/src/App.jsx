@@ -45,7 +45,7 @@ const App = () => {
       console.log(err.response)
       setCart(cart)
     })
-  
+      //test 
     // setCart([...cart,{
     //   product, quantity
     // }])
