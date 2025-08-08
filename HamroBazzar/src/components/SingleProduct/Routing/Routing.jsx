@@ -12,12 +12,12 @@ import LoginPage from './../../Authentication/LoginPage';
 import Logout from '../../Authentication/Logout';
 
 
-const Routing = () => {
+const Routing = ({addToCart}) => {
   return (
    <Routes>
     <Route path='/' element={ <HomePage />} />
     <Route path='/products' element={ <ProductPage />} />
-    <Route path='/product/:id' element={ <SingleProductPage />} />
+    <Route path='/product/:id' element={ <SingleProductPage addToCart={addToCart} />} />
     <Route path='/signup' element={ <SignupPage />} />
     <Route path='/login' element={ <LoginPage />} />
     <Route path='/cart' element={ <CartPage />} />

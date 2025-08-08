@@ -3,7 +3,7 @@ import "./SingleProduct.css";
 import QuantityInput from "./QuantityInput";
 import { useParams } from "react-router-dom";
 import useData from "../../hooks/useData";
-import Loader from './../Common/Loader';
+import Loader from "./../Common/Loader";
 // dummp data
 //  const product = {
 //     id: 1,
@@ -20,13 +20,14 @@ import Loader from './../Common/Loader';
 //     stock: 10,
 //   };
 
-const SingleProductPage = () => {
+const SingleProductPage = ({ addToCart }) => {
   const { id } = useParams();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
   const { data: product, error, isLoading } = useData(`/products/${id}`);
-  
+
+  console.log(addToCart)
   return (
     <section className="align_center single_product">
       {error && <em className="form_error">{error}</em>}
@@ -57,9 +58,18 @@ const SingleProductPage = () => {
             <p className="single_product_price">${product.price.toFixed(2)}</p>
             <h2 className="quantity_title">Quantity:</h2>
             <div className="align_center quantity_input">
-              <QuantityInput  quantity={quantity} setQuantity={setQuantity} stock={product.stock}/>
+              <QuantityInput
+                quantity={quantity}
+                setQuantity={setQuantity}
+                stock={product.stock}
+              />
             </div>
-            <button className="search_button add_cart">Add to Cart</button>
+            <button
+              className="search_button add_cart"
+              onClick={() => addToCart(product, quantity)}
+            >
+              Add to Cart
+            </button>
           </div>
         </>
       )}
