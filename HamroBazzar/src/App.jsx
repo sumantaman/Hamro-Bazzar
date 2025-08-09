@@ -4,7 +4,8 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Routing from "./components/SingleProduct/Routing/Routing";
 import setAuthToken from "./utils/setAuthToken";
-import { addToCartAPI } from "./services/cartServices";
+import { addToCartAPI, getCartAPI } from "./services/cartServices";
+import userContext from "./contexts/UserContext";
 
 setAuthToken(localStorage.getItem("token"));
 
@@ -39,24 +40,45 @@ const App = () => {
     }
 
     setCart(updatedCart);
-    addToCartAPI(product._id,quantity).then(()=>{
-      console.log("Product added to cart")
-    }).catch(err=> {
-      console.log(err.response)
-      setCart(cart)
-    })
-      //test 
-    // setCart([...cart,{
-    //   product, quantity
-    // }])
+    addToCartAPI(product._id, quantity)
+      .then(() => {
+        console.log("Product added to cart");
+      })
+      .catch((err) => {
+        console.log(err.response);
+        setCart(cart);
+      });
   };
+  const getCart = () => {
+    getCartAPI()
+      .then((res) => {
+        setCart(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+
+  //test
+  // setCart([...cart,{
+  //   product, quantity
+  // }])
+
+  useEffect(() => {
+    if (user) {
+      getCart();
+    }
+  }, [user]);
+
   return (
-    <div className="app">
-      <Navbar user={user} cartCount={cart.length} />
-      <main>
-        <Routing addToCart={addToCart} />
-      </main>
-    </div>
+    <userContext.Provider value={user}>
+      <div className="app">
+        <Navbar user={user} cartCount={cart.length} />
+        <main>
+          <Routing addToCart={addToCart} cart={cart} />
+        </main>
+      </div>
+    </userContext.Provider>
   );
 };
 
