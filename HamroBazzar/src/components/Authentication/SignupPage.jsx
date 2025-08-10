@@ -4,10 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // import {useNavigate} from "react-router-dom"
 import "./SignupPage.css";
 import user from "../assets/user.webp";
-import { useState } from "react";
+import {  useState } from "react";
 // import { signup } from "../../services/userServices";
 // import idButton from '../assets/id-button.png'
 import { signup } from "./../../services/userServices";
+
 
 const schema = z.object({
   name: z.string().min(3),

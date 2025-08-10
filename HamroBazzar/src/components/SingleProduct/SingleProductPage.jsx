@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./SingleProduct.css";
 import QuantityInput from "./QuantityInput";
 import { useParams } from "react-router-dom";
 import useData from "../../hooks/useData";
 import Loader from "./../Common/Loader";
+import UserContext from "../../contexts/UserContext";
 // dummp data
 //  const product = {
 //     id: 1,
@@ -24,6 +25,7 @@ const SingleProductPage = ({ addToCart }) => {
   const { id } = useParams();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const user = useContext(UserContext);
 
   const { data: product, error, isLoading } = useData(`/products/${id}`);
   return (
@@ -54,20 +56,24 @@ const SingleProductPage = ({ addToCart }) => {
             <h1 className="single_product_title">{product.title}</h1>
             <p className="single_product_decription">{product.description}</p>
             <p className="single_product_price">${product.price.toFixed(2)}</p>
-            <h2 className="quantity_title">Quantity:</h2>
-            <div className="align_center quantity_input">
-              <QuantityInput
-                quantity={quantity}
-                setQuantity={setQuantity}
-                stock={product.stock}
-              />
-            </div>
-            <button
-              className="search_button add_cart"
-              onClick={() => addToCart(product, quantity)}
-            >
-              Add to Cart
-            </button>
+            {user && (
+              <>
+                <h2 className="quantity_title">Quantity:</h2>
+                <div className="align_center quantity_input">
+                  <QuantityInput
+                    quantity={quantity}
+                    setQuantity={setQuantity}
+                    stock={product.stock}
+                  />
+                </div>
+                <button
+                  className="search_button add_cart"
+                  onClick={() => addToCart(product, quantity)}
+                >
+                  Add to Cart
+                </button>
+              </>
+            )}
           </div>
         </>
       )}

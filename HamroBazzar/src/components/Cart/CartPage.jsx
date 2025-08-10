@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
+// import toastify 
 import "./CartPage.css";
 import remove from "../assets/remove.png";
 import Table from "./../Common/Table";
 import QuantityInput from "./../SingleProduct/QuantityInput";
 import userContext from "../../contexts/UserContext";
 import cartContext from "../../contexts/CartContext";
+import { checkoutAPI } from "../../services/orderServices";
 
 const CartPage = () => {
   const [subTotal, setSubTotal] = useState();
   const user = useContext(userContext);
-  const { cart, removeFromCart, updateCart } = useContext(cartContext);
+  const { cart, removeFromCart, updateCart, setCart } = useContext(cartContext);
 
   useEffect(() => {
     let total = 0;
@@ -22,6 +24,16 @@ const CartPage = () => {
   //   getCart()
   // },[])
   // console.log(cart)
+  const checkout =()=>{
+    const oldCart = [...cart]
+    setCart([])
+    checkoutAPI().then(()=>{
+      console.log("order placed successfully")
+    }).catch(()=>{
+      console.log("failed to place order")
+      setCart(oldCart)
+    })
+  }
 
   return (
     <section className="align_center cart_page">
@@ -77,7 +89,7 @@ const CartPage = () => {
           </tr>
         </tbody>
       </table>
-      <button className="search_button checkout_button">Check Out</button>
+      <button className="search_button checkout_button" onClick={checkout}>Check Out</button>
     </section>
   );
 };

@@ -84,13 +84,14 @@ const ProductsList = () => {
           data.products.map((product) => (
             <ProductCard
               key={product._id}
-              id={product._id}
-              image={product.images[0]}
-              price={product.price}
-              rating={product.reviews.rate}
-              title={product.title}
-              ratingCounts={product.reviews.counts}
-              stock={product.stock}
+              product={product}
+              // id={product._id}
+              // image={product.images[0]}
+              // price={product.price}
+              // rating={product.reviews.rate}
+              // title={product.title}
+              // ratingCounts={product.reviews.counts}
+              // stock={product.stock}
             />
           ))}
         {isLoading && skeletons.map((n) => <ProductCardSkeleton key={n} />)}
