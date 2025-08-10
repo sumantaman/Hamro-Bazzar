@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Navbar.css";
 import rocket from "../assets/rocket.png";
 import star from "../assets/glowing-star.png";
@@ -8,7 +8,12 @@ import order from "../assets/basket.png";
 import lock from "../assets/locked.png";
 import LinkWithIcon from "../LinkWithIcon/LinkWithIcon";
 import { NavLink } from "react-router-dom";
-const Navbar = ({ user,cartCount }) => {
+import userContext from "../../contexts/UserContext";
+import cartContext from "../../contexts/CartContext";
+const Navbar = () => {
+const user =  useContext(userContext)
+const { cart, removeFromCart } = useContext(cartContext);
+
   return (
     <nav className=" align_center navbar">
       <div className="align_center">
@@ -38,7 +43,7 @@ const Navbar = ({ user,cartCount }) => {
             <LinkWithIcon title="My Orders" link="/myorder" emoji={order} />
 
             <NavLink to="/cart" className="align_center">
-              Cart <p className="align_center cart_counts">{cartCount}</p>
+              Cart <p className="align_center cart_counts">{cart.length}</p>
             </NavLink>
             <LinkWithIcon title="Logout" link="logout" emoji={lock} />
           </>

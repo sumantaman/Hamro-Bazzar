@@ -4,11 +4,12 @@ import remove from "../assets/remove.png";
 import Table from "./../Common/Table";
 import QuantityInput from "./../SingleProduct/QuantityInput";
 import userContext from "../../contexts/UserContext";
+import cartContext from "../../contexts/CartContext";
 
-const CartPage = ({ cart }) => {
+const CartPage = () => {
   const [subTotal, setSubTotal] = useState();
-  const user =useContext(userContext);
-  
+  const user = useContext(userContext);
+  const { cart, removeFromCart, updateCart } = useContext(cartContext);
 
   useEffect(() => {
     let total = 0;
@@ -25,7 +26,10 @@ const CartPage = ({ cart }) => {
   return (
     <section className="align_center cart_page">
       <div className="align_center user_info">
-        <img src={`http://localhost:5000/profile/${user?.profilePic}`} alt=" user profile" />
+        <img
+          src={`http://localhost:5000/profile/${user?.profilePic}`}
+          alt=" user profile"
+        />
         <div>
           <p className="user_name">Name : {user?.name}</p>
           <p className="user_name">Email : {user?.email}</p>
@@ -40,11 +44,17 @@ const CartPage = ({ cart }) => {
               <td>${product.price}</td>
               <td className="align_center table_quantity_input">
                 {" "}
-                <QuantityInput quantity={quantity} stock={product.stock} />{" "}
+                <QuantityInput quantity={quantity} stock={product.stock}  setQuantity={updateCart}
+                cartPage ={true} productId={product._id}/>{" "}
               </td>
-              <td>4{quantity * product.price}</td>
+              <td>${quantity * product.price}</td>
               <td>
-                <img src={remove} alt="dfdfdfd" className="cart_remove_icon" />
+                <img
+                  src={remove}
+                  alt="dfdfdfd"
+                  className="cart_remove_icon"
+                  onClick={() => removeFromCart(product._id)}
+                />
               </td>
             </tr>
           ))}
@@ -59,7 +69,7 @@ const CartPage = ({ cart }) => {
           </tr>
           <tr>
             <td>Shipping Charge</td>
-            <td> 999</td>
+            <td>$5</td>
           </tr>
           <tr className="cart_bill_final">
             <td>Total</td>

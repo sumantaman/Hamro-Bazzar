@@ -4,8 +4,15 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Routing from "./components/SingleProduct/Routing/Routing";
 import setAuthToken from "./utils/setAuthToken";
-import { addToCartAPI, getCartAPI } from "./services/cartServices";
-import userContext from "./contexts/UserContext";
+import {
+  addToCartAPI,
+  decreaseProductAPI,
+  getCartAPI,
+  increaseProductAPI,
+  removeFromCartAPI,
+} from "./services/cartServices";
+import UserContext from "./contexts/UserContext";
+import cartContext from "./contexts/CartContext";
 
 setAuthToken(localStorage.getItem("token"));
 
@@ -64,6 +71,36 @@ const App = () => {
   //   product, quantity
   // }])
 
+  const removeFromCart = (id) => {
+    const oldCart = [...cart];
+    const newCart = oldCart.filter((item) => item.product._id !== id);
+    setCart(newCart);
+
+    removeFromCartAPI(id).catch((err) => {
+      console.log(err.response);
+      setCart(oldCart);
+    });
+  };
+
+  const updateCart = (type, id) => {
+    const oldCart = [...cart];
+    const updatedCart = [...cart];
+    const productIndex = updatedCart.findIndex(
+      (item) => item.product._id === id
+    );
+
+    if (type === "increase") {
+      updatedCart[productIndex].quantity += 1;
+      setCart(updatedCart);
+      increaseProductAPI(id).catch((err) => console.log(err), setCart(oldCart));
+    }
+    if (type === "decrease") {
+      updatedCart[productIndex].quantity -= 1;
+      setCart(updatedCart);
+      decreaseProductAPI(id).then((err) => console.log(err), setCart(oldCart));
+    }
+  };
+
   useEffect(() => {
     if (user) {
       getCart();
@@ -71,14 +108,18 @@ const App = () => {
   }, [user]);
 
   return (
-    <userContext.Provider value={user}>
-      <div className="app">
-        <Navbar user={user} cartCount={cart.length} />
-        <main>
-          <Routing addToCart={addToCart} cart={cart} />
-        </main>
-      </div>
-    </userContext.Provider>
+    <UserContext.Provider value={user}>
+      <cartContext.Provider
+        value={{ cart, addToCart, removeFromCart, updateCart }}
+      >
+        <div className="app">
+          <Navbar />
+          <main>
+            <Routing addToCart={addToCart} cart={cart} />
+          </main>
+        </div>
+      </cartContext.Provider>
+    </UserContext.Provider>
   );
 };
 
